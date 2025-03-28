@@ -83,7 +83,7 @@ def init_collection(collection: Collection) -> None:
 
 
 def do_query(collection: Collection, query_text: str, n_results=5) -> dict:
-    print(f"Querying the database...")
+    print(f"Querying database...")
     results = collection.query(
         query_texts=[query_text],
         n_results=n_results,
