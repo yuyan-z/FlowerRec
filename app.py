@@ -4,7 +4,7 @@ from query_pipeline import load_local_dataset, load_collection, do_query, format
 from rag_pipeline import ResponseGenerator
 
 
-DEFAULT_QUERY = "soft pink and white flowers for Mother's Day"
+DEFAULT_QUERY = "I would like a pastel pink bouquet for Mother's Day."
 
 
 @st.cache_resource
@@ -13,6 +13,22 @@ def init_resources():
     collection = load_collection()
     return ds, collection
 
+
+def show_images(images):
+    n_images = len(images)
+    for i in range(0, n_images, 3):
+        cols = st.columns(3)
+        for j in range(3):
+            if i + j < n_images:
+                with cols[j]:
+                    st.image(
+                        f"data:image/jpeg;base64,{images[i + j]}",
+                        use_container_width=True,
+                        caption=f"Image {i + j + 1}",
+                    )
+
+
+st.set_page_config(page_title="FlowerRec", layout="centered")
 st.title("Flower Recommender System")
 
 model_name = st.selectbox("Choose a model", ["llava", "gpt-4o"])
@@ -30,7 +46,7 @@ if st.button("Start"):
         ds, collection = init_resources()
 
         status.update(label="Querying database...", state="running")
-        result = do_query(collection, query_text, 2)
+        result = do_query(collection, query_text, 3)
         result_formatted = format_query_result(ds, query_text, result)
 
         status.update(label=f"Generating response...", state="running")
@@ -44,10 +60,7 @@ if st.button("Start"):
         st.markdown(response)
 
         # Show images
-        if result_formatted["images"]:
-            st.subheader("🖼️ Images")
-            for idx, img_b64 in enumerate(result_formatted["images"]):
-                st.image(f"data:image/jpeg;base64,{img_b64}", caption=f"Image {idx + 1}", use_container_width=True)
+        show_images(result_formatted["images"])
 
     except Exception as e:
-        status.update(label=f"❌ Error：{e}", state="error")
+        status.update(label=f"Error：{e}", state="error")

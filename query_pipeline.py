@@ -11,7 +11,7 @@ from utils import pil2base64
 
 DATASET_PATH = "./data/flowers-102-categories"
 DATABASE_PATH = "./data/flower.db"
-NUM_DATA = 500
+NUM_DATA = 300
 
 
 def load_local_dataset() -> Dataset:
@@ -72,7 +72,7 @@ def init_collection(collection: Collection) -> None:
     ds = ds.with_format("numpy")  # format numpy array
 
     if NUM_DATA is not None:
-        ds = ds.shuffle(seed=42).take(NUM_DATA)
+        ds = ds.shuffle(seed=10).take(NUM_DATA)
 
     # Add data in batches
     batch_size = 100
@@ -151,7 +151,7 @@ if __name__ == "__main__":
     collection = load_collection()
     print("collection count:", collection.count())
 
-    query_text = "pink-themed flower"
+    query_text = "soft pink flower"
     result = do_query(collection, query_text, 5)
     print(result)
 
