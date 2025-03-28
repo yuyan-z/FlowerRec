@@ -1,0 +1,9 @@
+streamlit~=1.44.0
+opencv-python~=4.11.0.86
+datasets~=3.4.1
+python-dotenv~=1.0.1
+langchain-openai~=0.3.11
+langchain-core~=0.3.49
+matplotlib~=3.10.0
+chromadb~=0.6.3
+tqdm~=4.67.1
