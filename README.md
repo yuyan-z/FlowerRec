@@ -6,5 +6,6 @@
 3. Add the `OPENAI_API_KEY` in .env, if using openAI API.  
 4. Run the application `streamlit run app.py`  
 
-## Examples
+## Example
+![example](results/example.png)
 
